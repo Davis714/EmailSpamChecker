@@ -56,7 +56,6 @@ def predict():
     # Stack predictions
     stacked_input = np.column_stack([log_reg_proba, svm_proba, mlp_proba])
     final_prediction = (meta_model.predict(stacked_input) > 0.5).astype(int)[0][0]
-
     return jsonify({"prediction": "spam" if final_prediction == 1 else "ham"})
 
 if __name__ == '__main__':

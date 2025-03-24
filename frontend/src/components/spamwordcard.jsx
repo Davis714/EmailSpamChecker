@@ -1,6 +1,7 @@
-import React from "react";
-import {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion";
+
 const SpamWordCard = () => {
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
@@ -8,47 +9,105 @@ const SpamWordCard = () => {
 
   const checkSpam = async () => {
     setLoading(true);
+    setResult(null);
     try {
       const response = await axios.post("http://127.0.0.1:5000/predict", { text });
       setResult(response.data.prediction);
-      console.log(response.data.prediction);
     } catch (error) {
       setResult("Error checking spam");
     }
     setLoading(false);
   };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
-        <div className="text-gray-700 text-sm mb-4">
-          <p className="font-semibold">Insert your subject line and email body in the fields below to identify and remove possible email spam.</p>
-        </div>
-        
-        <input
-          type="text"
-          placeholder="Insert your subject line"
-          className="w-full border rounded p-2 mb-4"
-        />
-        
-        <textarea
-          className="w-full border rounded p-2 mb-4"
+    <motion.div 
+      className="flex flex-col justify-center items-center min-h-screen w-full bg-cover bg-center bg-no-repeat px-4 dark:bg-gray-900"
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      transition={{ duration: 1 }}
+    >
+      {/* 🌟 Title & Description */}
+      <motion.div 
+        className="text-center mb-8 max-w-2xl text-white"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <h1 className="text-4xl font-extrabold drop-shadow-lg">Spam Detector 🔍</h1>
+        <p className="mt-4 text-lg text-gray-300">
+          Protect your inbox with AI-powered spam detection. Enter an email's body, and let our system determine whether it's spam.
+        </p>
+      </motion.div>
+
+      {/* 🌟 Card UI */}
+      <motion.div 
+        className="w-full max-w-xl bg-gray-800 shadow-2xl rounded-2xl p-8 backdrop-blur-lg bg-opacity-80 text-white "
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.p 
+          className="text-gray-400 text-center text-sm mb-4"
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ delay: 0.5 }}
+        >
+          Enter the email details below to analyze spam probability.
+        </motion.p>
+
+        {/* Input Fields */}
+        <motion.textarea
+          className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg p-3 mb-4 focus:ring-2 focus:ring-blue-500 transition-all shadow-sm"
           rows="4"
-          placeholder="Enter your email content"
+          placeholder="Enter email content"
           onChange={(e) => setText(e.target.value)}
-        ></textarea>
-        <button type="button" 
-                onClick={checkSpam}
-                disabled={loading}
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">{loading ? "Checking..." : "Check Spam"}
-        </button> 
+          whileFocus={{ scale: 1.05 }}
+        ></motion.textarea>
+
+        {/* 🌟 Button with Animated Loading */}
+        <motion.button 
+          type="button" 
+          onClick={checkSpam}
+          disabled={loading}
+          className="w-full flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3 text-center transition-all shadow-lg"
+          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.05 }}
+        >
+          {loading ? (
+            <motion.div 
+              className="flex items-center space-x-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <motion.div 
+                className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+                transition={{ repeat: Infinity, duration: 1 }}
+              />
+              <span>Checking...</span>
+            </motion.div>
+          ) : (
+            "Check Spam"
+          )}
+        </motion.button> 
+        
+        {/* 🌟 Animated Result Display */}
         {result && (
-          <div className={`mt-4 p-3 rounded ${result === "spam" ? "bg-red-100 text-red-600" : "bg-green-100 text-green-600"}`}>
-            <p className="font-semibold">{result === "spam" ? "Spam Detected" : "Not Spam"}</p>
-          </div>
+          <motion.div 
+            className={`mt-4 p-4 rounded-lg text-center font-semibold shadow-md ${
+              result === "spam" ? "bg-red-900 text-red-300" : "bg-green-900 text-green-300"
+            }`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {result === "spam" ? "🚨 Spam Detected" : "✅ Not Spam"}
+          </motion.div>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
 export default SpamWordCard;
+
