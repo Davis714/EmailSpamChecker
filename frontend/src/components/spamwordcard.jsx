@@ -20,12 +20,7 @@ const SpamWordCard = () => {
   };
 
   return (
-    <motion.div 
-      className="flex flex-col justify-center items-center min-h-screen w-full bg-cover bg-center bg-no-repeat px-4 dark:bg-gray-900"
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1 }} 
-      transition={{ duration: 1 }}
-    >
+      <React.Fragment>
       {/* 🌟 Title & Description */}
       <motion.div 
         className="text-center mb-8 max-w-2xl text-white"
@@ -52,7 +47,7 @@ const SpamWordCard = () => {
           animate={{ opacity: 1 }} 
           transition={{ delay: 0.5 }}
         >
-          Enter the email details below to analyze spam probability.
+          Enter the email details below to identify whether it is spam or not.
         </motion.p>
 
         {/* Input Fields */}
@@ -71,7 +66,7 @@ const SpamWordCard = () => {
           disabled={loading}
           className="w-full flex items-center justify-center text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm px-5 py-3 text-center transition-all shadow-lg"
           whileTap={{ scale: 0.95 }}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.02 }}
         >
           {loading ? (
             <motion.div 
@@ -105,9 +100,11 @@ const SpamWordCard = () => {
           </motion.div>
         )}
       </motion.div>
-    </motion.div>
+      </React.Fragment>
+
   );
 };
 
 export default SpamWordCard;
+
 

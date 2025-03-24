@@ -3,12 +3,6 @@ import { motion } from "framer-motion";
 
 const AboutUs = () => {
   return (
-    <motion.div
-      className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-6"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
       <motion.div
         className="max-w-4xl bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8"
         initial={{ scale: 0.8, opacity: 0 }}
@@ -71,7 +65,6 @@ const AboutUs = () => {
           <li>Users receive real-time feedback with actionable insights.</li>
         </motion.ul>
       </motion.div>
-    </motion.div>
   );
 };
 

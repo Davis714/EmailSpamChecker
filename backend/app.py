@@ -39,7 +39,7 @@ def preprocess_text(text):
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.json
-    text = data.get('text', '')
+    text = data.get('text','')
 
     if not text:
         return jsonify({"error": "No text provided"}), 400
